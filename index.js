@@ -66,8 +66,31 @@ const repliArray = (times, val) => {
   return array;
 };
 
+// COUNT NUMBER OF ATTEMPTS TO TRAVERSE 2D MATRIX
+const attemptsToTraverse2DMatrix = (row, col, memo = {}) => {
+  if (row === 1 || col === 1) return 1;
+  if (row === 0 || col === 0) return 0;
+  const moveRight = col === 1 ? 1 : col - 1;
+  const moveDown = row === 1 ? 1 : row - 1;
+  if (memo[row] && memo[row][col]) return memo[row][col];
+  memo[row] = {
+    [col]:
+      attemptsToTraverse2DMatrix(row, moveRight, memo) +
+      attemptsToTraverse2DMatrix(moveDown, col, memo),
+  };
+  return memo[row][col];
+};
+
 // PRACTICE QUESTIONS
 //https://www.codingame.com/playgrounds/5422/js-interview-prep-recursion
+
+console.log(`\n--------------------------------------------------------`);
+//const mdArrtay = [[3, [5]], 0, 2, ["foo"], [], [4, [5, 6]]];
+const matrix = { row: 100, col: 100 }; // should be 3
+const matrixTraverseVal = attemptsToTraverse2DMatrix(matrix.row, matrix.col);
+console.log(
+  `Number of ways [${matrix.row},${matrix.col}] matrix can be traversed = ${matrixTraverseVal}`
+);
 
 console.log(`\n--------------------------------------------------------`);
 //const mdArrtay = [[3, [5]], 0, 2, ["foo"], [], [4, [5, 6]]];
