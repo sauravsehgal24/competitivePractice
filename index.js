@@ -1,3 +1,7 @@
+// REMEMBER: in dynamic programming, keep in mind the return for lowest child process and the second lowes as well
+// for example: we know [1,1] matrix can only be reached in 1 attempt but this info is kinda not very interesting, so we need to note return for lets say [1,2] or [2,1] which is also 1
+// and this gives us an idea of a pattern to traverse which is [i,i-1] and [i-1,i]
+
 // FACTORIAL
 const factorial = (param) => {
   if (param === 0) return 1;
