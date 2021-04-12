@@ -163,6 +163,55 @@ const lengthIncreasingSubSeqs = (arr, vals = [], _n = 0) => {
   return vals;
 };
 
+// GET SECOND SMALLEST VAL IN ARRAY
+const smallestValInArray = (arr, n = 0) => {
+  if (!arr) return "No Array Found";
+  if (n === arr.length - 1) return arr[n];
+  if (arr.length === 1) return arr[0];
+  if (arr.length === 2) return arr[0] > arr[1] ? arr[1] : arr[0];
+  if (n !== arr.length - 1) {
+    const val = smallestValInArray(arr, n + 1);
+    return arr[n] < val ? arr[n] : val;
+  }
+};
+
+// GET SECOND SMALLEST VAL IN ARRAY
+const secSmallestValInArray = (
+  arr,
+  n = 0,
+  vals = { smallestVal: 0, secSmallestVal: 0 }
+) => {
+  if (!arr) return "No Array Found";
+  if (arr.length === 1) return arr[0];
+  if (arr.length === 2)
+    return arr[0] > arr[1]
+      ? { smallestVal: arr[1], secSmallestVal: arr[0] }
+      : { smallestVal: arr[0], secSmallestVal: arr[1] };
+  if (n === arr.length - 2)
+    return arr[n] > arr[n - 1]
+      ? { smallestVal: arr[n - 1], secSmallestVal: arr[n] }
+      : { smallestVal: arr[n], secSmallestVal: arr[n - 2] };
+  if (n !== arr.length - 2) {
+    const { smallestVal, secSmallestVal } = secSmallestValInArray(
+      arr,
+      n + 1,
+      vals
+    );
+    if (arr[n] < smallestVal) {
+      vals = {
+        smallestVal: arr[n],
+        secSmallestVal: smallestVal,
+      };
+    } else {
+      vals = {
+        smallestVal: smallestVal,
+        secSmallestVal: secSmallestVal,
+      };
+    }
+  }
+  return vals;
+};
+
 // PRACTICE QUESTIONS
 //https://www.codingame.com/playgrounds/5422/js-interview-prep-recursion
 const lisArray = [4, 7, 5, 6, 8, 9];
@@ -233,3 +282,10 @@ console.log(`\n--------------------------------------------------------`);
 const array = [5, 4, 5, 3, -1];
 const val3 = productOfArray(array);
 console.log(`product of vals in array = ${val3}`);
+
+console.log(`\n--------------------------------------------------------`);
+const valArray = [10, 8, 11, 4, 5, 13];
+const valArraySecSmallest = secSmallestValInArray(valArray);
+console.log(
+  `Smallest val in array = ${valArraySecSmallest.smallestVal}\nSecond Smallest val in array = ${valArraySecSmallest.secSmallestVal}`
+);
