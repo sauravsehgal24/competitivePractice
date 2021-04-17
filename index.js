@@ -212,18 +212,32 @@ const secSmallestValInArray = (
   return vals;
 };
 
+const coinChange = (num, arr, memo = []) => {
+  if (arr.length === 0) return 0;
+  if (memo[num]) return memo[num];
+  if (num === 0) {
+    memo[0] = 1;
+    return memo[0];
+  }
+  if (num < 0) return 0;
+  for (var i = 0; i < arr.length; i++) {
+    if (!memo[num]) memo[num] = 0;
+    memo[num] = memo[num] + coinChange(num - arr[i], arr, memo);
+  }
+  return memo[num];
+};
+
 // PRACTICE QUESTIONS
 //https://www.codingame.com/playgrounds/5422/js-interview-prep-recursion
+const coinArray = [1, 2, 3];
+const coin = 4;
+const numWaysForCoinChange = coinChange(coin, coinArray);
+console.log(`\n--------------------------------------------------------`);
+console.log(
+  `\nNumber of ways we can get change for ${coin} = ${numWaysForCoinChange}`
+);
+
 const lisArray = [4, 7, 5, 6, 8, 9];
-// console.log(`\n--------------------------------------------------------`);
-// const lis = longestIncreasingSubSeq(lisArray);
-// console.log(`Length of longest increasing sub-sequence = ${lis.vals}`);
-
-// console.log(`\n--------------------------------------------------------`);
-// const increasingSubSeqsVal = increasingSubSeqs(lisArray);
-// console.log(`Array of Increasing Sub Sequences in Array = `);
-// console.log(increasingSubSeqsVal);
-
 console.log(`\n--------------------------------------------------------`);
 const arraylengthISeq = lengthIncreasingSubSeqs(lisArray);
 console.log(`Array of Lengths of Increasing Sub Sequences in Array = `);
