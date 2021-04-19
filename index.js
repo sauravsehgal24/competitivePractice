@@ -227,9 +227,53 @@ const coinChange = (num, arr, memo = []) => {
   return memo[num];
 };
 
+// Shortest path from x,y to x^,y^
+const findShortestPath = (
+  current = { row: 0, col: 0 },
+  end = { row: 2, col: 3 }
+) => {
+  const { row: x, col: y } = current;
+  const { row: dx, col: dy } = end;
+  // base case
+  if (dx === 0 && dy === 0) return [0, 0];
+  if (x === dx && y === dy) return [[dx, dy]];
+  // Logic
+  //onst spRight = findShortestPath({ row: x + 1, col: y });
+  //const spLeft = findShortestPath({ row: x, col: y + 1 });
+  let spRight = null,
+    spDown = null,
+    spDnal = null;
+  if (y != dy) {
+    spRight = findShortestPath({ row: x, col: y + 1 }, end);
+  }
+  if (x != dx) {
+    spDown = findShortestPath({ row: x + 1, col: y }, end);
+  }
+  if (y != dy && x != dx)
+    spDnal = findShortestPath({ row: x + 1, col: y + 1 }, end);
+
+  let minPath = spDnal || spDown || spRight;
+
+  const allPossiblePaths = [spRight, spDnal, spDown];
+  allPossiblePaths.map((el) => {
+    if (el && el.length < minPath) minPath = el;
+  });
+
+  const shortestPath = [[x, y], ...minPath];
+  return shortestPath;
+};
+
 // PRACTICE QUESTIONS
 //https://www.codingame.com/playgrounds/5422/js-interview-prep-recursion
 //https://www.geeksforgeeks.org/dynamic-programming/#basicProblems
+const spDest = { row: 3, col: 2 };
+const sPath = findShortestPath({ row: 0, col: 0 }, spDest);
+console.log(`\n--------------------------------------------------------`);
+console.log(sPath);
+console.log(
+  `\nSortest path from [0,0] to [${spDest.row},${spDest.col}] = ${sPath}`
+);
+
 const coinArray = [1, 2, 3];
 const coin = 4;
 const numWaysForCoinChange = coinChange(coin, coinArray);
