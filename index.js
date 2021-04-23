@@ -263,41 +263,63 @@ const findShortestPath = (
   return shortestPath;
 };
 
-// Power Set of Set
-const powerSet = (arr, memo = [], n = 0) => {
-  if (memo[n]) return memo;
-
-  if (n == arr.length - 1) {
+// Power Set
+const powerSet = (arr, n = 0, memo = []) => {
+  if (n === arr.length - 1) {
     memo[n] = [[], [arr[n]]];
-    return memo;
+    return memo[n];
   }
-  const ps = powerSet(arr, memo, n + 1)[n + 1];
-  const ps2 = powerSet(arr, memo, n + 1)
-    [n + 1].map((p) => {
-      if (p.length !== 0) {
-        p.push(arr[n]);
+  let p = powerSet(arr, n + 1, memo);
+  let p2 = [];
+  for (var i = 0; i < p.length; i++) {
+    if (p[i].length !== 0) {
+      p2 = [...p2, [arr[n], ...p[i]]];
+    }
+  }
+  memo[n] = [[arr[n]], ...p, ...p2];
+  return memo[n];
+};
+
+// First and Last
+const firstAndLast = (arr) => {
+  if (!arr || arr.length == 0) {
+    return [0, 0];
+  }
+  let first = arr[0],
+    last = arr[0];
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] > first) {
+      first = arr[i];
+    } else {
+      if (arr[i] < last) {
+        last = arr[i];
       }
-    })
-    .filter((p) => p && p.length !== 0);
-  memo[n] = [[arr[n]], ...ps, ...ps2];
-  return memo;
+    }
+  }
+  return [first, last];
 };
 
 // PRACTICE QUESTIONS
 //https://www.codingame.com/playgrounds/5422/js-interview-prep-recursion
 //https://www.geeksforgeeks.org/dynamic-programming/#basicProblems
-const set = [2, 3, 4];
-const ps = powerSet(set);
+const fAndS = firstAndLast([1, 2, 3]);
+console.log(`\nFirst=${fAndS[0]}  Last=${fAndS[1]}`);
 console.log(`\n--------------------------------------------------------`);
-console.log(ps[1]);
 
-console.log(`\n--------------------------------------------------------`);
+const A = [1, 2];
+const powerSetOfSet = powerSet(A);
+console.log(
+  `\nPower Set of [${A}]\n--------------------------------------------------------`
+);
+console.log(powerSetOfSet);
+console.log(`\nTotal objects in powerSet = ${powerSetOfSet.length}`);
+
 const spDest = { row: 3, col: 2 };
 const sPath = findShortestPath({ row: 0, col: 0 }, spDest);
 console.log(`\n--------------------------------------------------------`);
 console.log(sPath);
 console.log(
-  `\nSortest path from [0,0] to [${spDest.row},${spDest.col}] = ${sPath}`
+  `\nShortest path from [0,0] to [${spDest.row},${spDest.col}] = ${sPath}`
 );
 
 const coinArray = [1, 2, 3];
