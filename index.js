@@ -280,9 +280,31 @@ const powerSet = (arr, n=0, memo = []) => {
    return memo[n]
 };
 
+// First and Last
+const firstAndLast = (arr) => {
+  if(!arr || arr.length==0){
+    return [0,0]
+  }
+  let first = arr[0],
+    last = arr[0];
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] > first) {
+      first = arr[i];
+    } else {
+      if (arr[i] < last) {
+        last = arr[i];
+      }
+    }
+  }
+  return [first,last]
+};
+
 // PRACTICE QUESTIONS
 //https://www.codingame.com/playgrounds/5422/js-interview-prep-recursion
 //https://www.geeksforgeeks.org/dynamic-programming/#basicProblems
+const fAndS = firstAndLast([1,2,3]);
+console.log(`\nFirst=${fAndS[0]}  Last=${fAndS[1]}`);
+
 const A = [1,2,3];
 const powerSetOfSet = powerSet(A);
 console.log(`\nPower Set of [${A}]\n--------------------------------------------------------`);
