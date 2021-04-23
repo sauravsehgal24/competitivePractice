@@ -263,9 +263,32 @@ const findShortestPath = (
   return shortestPath;
 };
 
+// Power Set
+const powerSet = (arr, n=0, memo = []) => {
+  if(n===arr.length-1) {
+     memo[n] = [[],[arr[n]]]
+     return memo[n]
+  }
+   let p = ps(arr,n+1,memo)
+   let p2 = []
+   for(var i=0;i<p.length;i++){
+      if(p[i].length!==0){
+         p2 = [...p2, [arr[n],...p[i]]]
+      }
+   }
+   memo[n] = [[arr[n]], ...p , ...p2] 
+   return memo[n]
+};
+
 // PRACTICE QUESTIONS
 //https://www.codingame.com/playgrounds/5422/js-interview-prep-recursion
 //https://www.geeksforgeeks.org/dynamic-programming/#basicProblems
+const A = [1,2,3];
+const powerSetOfSet = powerSet(A);
+console.log(`\nPower Set of [${A}]\n--------------------------------------------------------`);
+console.log(powerSetOfSet);
+console.log(`\nTotaal objects in powerSet = ${powerSetOfSet.length}`);
+
 const spDest = { row: 3, col: 2 };
 const sPath = findShortestPath({ row: 0, col: 0 }, spDest);
 console.log(`\n--------------------------------------------------------`);
